@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Pretrained/base checkpoint yang auto-download saat training (bukan
+# hasil kerja) — cegah ke-commit tidak sengaja kalau notebook
+# dijalankan lokal di folder repo. Rule ini hanya berlaku di ROOT
+# repo (leading "/"), jadi tidak memblokir model hasil training yang
+# sengaja ditaruh di models/ — lihat models/README.md.
+/yolov8s.pt
+/yolo26n.pt
+/*.pt
+/*.onnx
+/*_ncnn_model/
+/*.ncnn.param
+/*.ncnn.bin
+
+# Folder training run mentah (checkpoint per-epoch, log lengkap) —
+# besar dan sepenuhnya reproducible dari notebook, tidak perlu commit.
+runs/
+datasets/
+
+# Dataset resmi proyek ini sudah ada di data/krsri_dataset_yolov8.zip
+# (lisensi CC BY 4.0, lihat data/README.md). Zip lain di luar folder
+# data/ kemungkinan besar tidak sengaja ter-download / hasil scratch
+# kerja, jadi tetap diabaikan.
+*.zip
+!/data/*.zip
+
+# Video hasil test — biasanya besar, tidak perlu di-version-control
+*_annotated.mp4
+output_detection.mp4
+
+# OS
+.DS_Store
+Thumbs.db
