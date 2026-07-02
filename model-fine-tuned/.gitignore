@@ -34,10 +34,6 @@ datasets/
 *.zip
 !/data/*.zip
 
-# Video hasil test — biasanya besar, tidak perlu di-version-control
-*_annotated.mp4
-output_detection.mp4
-
 # OS
 .DS_Store
 Thumbs.db
