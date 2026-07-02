@@ -1,0 +1,20 @@
+description: Ultralytics best model trained on /content/krsri_optimized.yaml
+author: Ultralytics
+date: '2026-07-02T08:55:09.325588'
+version: 8.4.84
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+batch: 1
+imgsz:
+- 640
+- 640
+names:
+  0: boneka-asli
+  1: boneka-dummy
+args:
+  batch: 1
+  quantize: 32
+channels: 3
+end2end: false

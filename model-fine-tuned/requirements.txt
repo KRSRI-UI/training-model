@@ -1,0 +1,13 @@
+# Dependency utama untuk training (notebook) dan inferensi (scripts/).
+#
+# Catatan: ultralytics sengaja TIDAK di-pin ke versi persis. Selama
+# pengembangan proyek ini, versi ultralytics yang di-pin sempat gagal
+# total (UnpicklingError) begitu environment Colab pindah ke PyTorch
+# 2.6+, karena versi lama belum kompatibel dengan default weights_only
+# yang baru. Pakai versi terbaru yang tersedia untuk menghindari ini;
+# kalau butuh reproduksibilitas persis, catat versi yang berhasil
+# (diverifikasi bekerja: ultralytics==8.4.83) secara terpisah.
+ultralytics>=8.4.0
+
+opencv-python>=4.8.0
+numpy>=1.24.0

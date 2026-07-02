@@ -1,0 +1,7 @@
+names:
+- boneka-asli
+- boneka-dummy
+nc: 2
+path: /content/krsri_dataset_resplit
+train: train/images
+val: valid/images
