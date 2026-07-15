@@ -71,8 +71,9 @@ Sudah dicoba beberapa pendekatan untuk memitigasi masalah di atas melalui augmen
 │   ├── training_curves.png
 │   └── inference_test.png
 └── scripts/
-    ├── raspi_detect.py                 # Inferensi realtime di Raspberry Pi (kamera/video/gambar)
-    └── test_video_detect.py            # Evaluasi model terhadap video, menghasilkan video beranotasi
+    ├── raspi_detect.py                 # Inferensi realtime di Raspberry Pi (kamera/video/gambar), dgn mode --stable
+    ├── test_video_detect.py            # Evaluasi model terhadap video (deteksi mentah per-frame)
+    └── track_video_detect.py           # Evaluasi video versi stabil (tracking + temporal voting, 2-pass)
 ```
 
 ## Cara Pakai
@@ -94,8 +95,12 @@ Notebook mencakup:
 
 ```bash
 pip install ultralytics opencv-python
-python3 raspi_detect.py --source 0 --imgsz 416
+python3 raspi_detect.py --source 0 --imgsz 640
 ```
+
+> **Penting — `--imgsz` wajib 640.** Model NCNN di repo ini diekspor *fixed-shape* 640×640 (lihat `best_ncnn_model/metadata.yaml`). Menjalankannya di ukuran lain (mis. 416) membuat NCNN mengeluarkan **ratusan bounding box sampah** — sumber besar ketidakstabilan deteksi di lapangan. `raspi_detect.py` sekarang **menolak jalan** kalau `--imgsz` tidak cocok dengan ukuran ekspor. Kalau butuh 320/416 demi kecepatan di Raspi, **ekspor ulang** model di ukuran itu dari notebook, jangan paksa lewat flag.
+
+Secara default `raspi_detect.py` kini juga mengaktifkan **mode stabilisasi** (`--stable`): tracking IoU ringan + voting kelas berjalan + konfirmasi min-hits, untuk meredam false-positive kedip dan label yang gonta-ganti. Pakai `--raw` untuk kembali ke deteksi mentah per-frame (perilaku lama).
 
 `raspi_detect.py` membaca model NCNN dari folder `best_ncnn_model/` di direktori kerja yang sama — `scripts/raspi_detect.py` dan `models/best_ncnn_model/` perlu berada di folder yang sama saat dijalankan. Lihat docstring di `scripts/raspi_detect.py` untuk opsi lengkap (Pi Camera, mode headless, simpan output, dsb).
 
@@ -107,6 +112,12 @@ python3 scripts/test_video_detect.py --video path/ke/video.mp4 --weights models/
 ```
 
 Menghasilkan video baru dengan bounding box, label, dan confidence score untuk setiap deteksi, plus ringkasan statistik di terminal. Berguna untuk menguji model di luar dataset training — sangat direkomendasikan sebelum menggunakan model di kompetisi sungguhan.
+
+**Versi stabil (offline, 2-pass):** untuk review video yang jauh lebih mulus, pakai `scripts/track_video_detect.py`. Skrip ini menjalankan object tracking (ByteTrack), lalu menetapkan satu kelas per objek lewat **temporal voting** (mayoritas ditimbang confidence sepanjang hidup objek), membuang track "kedip" yang hidup di bawah `--min-track-len` frame sebagai false positive, dan menghaluskan box. Pada video uji, ini menurunkan label flip antar-frame dari **6,1% → 0,1%**, objek berlabel-ganda dari **13,6% → 0,0%** frame, dan frekuensi jumlah-deteksi berubah dari **42,4% → 28,8%** — tanpa mengubah bobot model.
+
+```bash
+python3 scripts/track_video_detect.py --video path/ke/video.mp4 --weights models/best_yolov8s.pt
+```
 
 ## Requirements
 
