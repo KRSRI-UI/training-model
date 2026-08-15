@@ -1,0 +1,103 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /PointCloud21
+        - /MarkerArray1
+      Splitter Ratio: 0.5
+    Tree Height: 600
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Name: root
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 0.5
+      Plane: XY
+      Plane Cell Count: 20
+      Color: 160; 160; 164
+      Alpha: 0.3
+      Reference Frame: <Fixed Frame>
+
+    # Awan titik mentah dari Kinect. Ini "kenyataan" yang dipakai untuk menilai
+    # apakah marker deteksi jatuh di tempat yang benar.
+    - Class: rviz_default_plugins/PointCloud2
+      Name: PointCloud2
+      Enabled: true
+      Topic:
+        Value: /camera/depth_registered/points
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Best Effort
+      Style: Points
+      Size (Pixels): 2
+      Alpha: 1
+      Color Transformer: RGB8
+      Position Transformer: XYZ
+      Decay Time: 0
+      Use Fixed Frame: true
+
+    # Hasil deteksi: bola + label jarak. Hijau = boneka-asli, merah = dummy,
+    # abu-abu = terdeteksi tapi depth tidak terbaca.
+    - Class: rviz_default_plugins/MarkerArray
+      Name: MarkerArray
+      Enabled: true
+      Namespaces: {}
+      Topic:
+        Value: /distance_node/markers
+        Depth: 10
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+
+    # Citra 2D beranotasi — memudahkan mencocokkan apa yang dilihat YOLO
+    # dengan apa yang muncul di ruang 3D.
+    - Class: rviz_default_plugins/Image
+      Name: DebugImage
+      Enabled: true
+      Topic:
+        Value: /distance_node/debug_image
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+      Max Value: 1
+      Min Value: 0
+      Normalize Range: true
+
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: camera_rgb_optical_frame
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 3
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 1.5
+      # Kamera menghadap ke arah pandang Kinect, sehingga tampilan awal
+      # menyerupai apa yang dilihat sensor.
+      Pitch: -0.3
+      Yaw: 1.57
+      Near Clip Distance: 0.01
+      Target Frame: <Fixed Frame>
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 900
+  Width: 1400
+  Hide Left Dock: false
+  Hide Right Dock: false

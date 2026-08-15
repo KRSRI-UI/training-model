@@ -1,0 +1,14 @@
+# Artefak colcon build — dihasilkan ulang setiap build, jangan di-commit.
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Bobot model tidak disimpan di sini; pakai yang ada di ../model-fine-tuned/models/
+*.pt
+*.onnx
