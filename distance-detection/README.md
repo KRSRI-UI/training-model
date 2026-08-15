@@ -95,6 +95,10 @@ akan mengambil keputusan berbahaya.
 
 ## Instalasi (Ubuntu 22.04 + ROS 2 Humble)
 
+> **Belum punya Ubuntu atau ROS 2?** Ikuti [`SETUP.md`](SETUP.md) — panduan lengkap
+> dari laptop kosong sampai point cloud muncul di RViz, dengan langkah verifikasi
+> di tiap tahap dan bagian troubleshooting. Bagian di bawah ini hanya ringkasannya.
+
 ```bash
 # 1. Dependensi ROS
 sudo apt update
